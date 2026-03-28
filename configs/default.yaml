@@ -1,0 +1,28 @@
+# Default CMoE experiment configuration
+cmoe:
+  num_experts: 8
+  top_k: 2
+  d_model: 768
+  d_ff: 3072
+  dropout: 0.0
+  noise_std: 0.1
+  capacity_factor: 1.0
+  use_shared_expert: true
+  aux_loss_weight: 0.01
+
+train:
+  model_name: gpt2
+  dataset: wikitext
+  dataset_config: wikitext-2-raw-v1
+  batch_size: 8
+  gradient_accumulation_steps: 4
+  learning_rate: 5.0e-4
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  num_epochs: 3
+  warmup_steps: 200
+  max_seq_length: 512
+  seed: 42
+  output_dir: results/checkpoints
+  log_every: 50
+  eval_every: 500
