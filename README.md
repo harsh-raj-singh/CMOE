@@ -234,6 +234,13 @@ python -m experiments.benchmark
 bash scripts/run_experiment.sh
 ```
 
+### Reproducibility Notes
+
+- The headline benchmark tables in this README are backed by the checked-in artifact at [`results/benchmark_results.json`](results/benchmark_results.json).
+- The provided scripts are calibrated for single-node experimentation and educational inspection, not large-scale distributed MoE training.
+- Throughput and memory numbers are directional: exact values will vary with GPU model, `transformers` version, tokenizer settings, and mixed-precision configuration.
+- If you are extending the benchmark suite, keep the dense GPT-2 baseline and CMoE variants on the same dataset split so the perplexity deltas remain comparable.
+
 ## Technical Deep Dive
 
 ### Why Conditional Computation Works
@@ -269,6 +276,13 @@ From DeepSeek-MoE: purely sparse routing can lose common patterns. The shared ex
 - Always fires (dense), capturing universal token transformations
 - Frees sparse experts to specialize on genuinely distinct patterns
 - Acts as a residual baseline, reducing the burden on the router
+
+## Current Limitations
+
+- Benchmarks are centered on GPT-2 and WikiText-2, so the results should be read as controlled implementation studies rather than universal scaling claims.
+- The code focuses on clarity over kernel-level optimization; it does not implement expert parallelism, all-to-all dispatch, or fused routing kernels.
+- Routing analysis is strongest for aggregate utilization and ablation comparisons, not for token-level interpretability dashboards.
+- Checkpoints, experiment configs, and result files are lightweight enough for local iteration, but they are not packaged as a fully automated reproduction pipeline.
 
 ## Comparison with Existing MoE Implementations
 
